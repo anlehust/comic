@@ -24,3 +24,6 @@ Route::get('database', function(){
         $table -> string('author',100);
     });
 });
+Route::get('comics','ComicController@content');
+Route::get('comics/{name}','ChapController@content');
+Route::get('comics/{name_of_comic}/chaps/{name_of_chap}','ImageController@content');
