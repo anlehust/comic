@@ -5,8 +5,7 @@
     <title>Comic </title>
 </head>
 <body>
-@foreach ($comics as $comic)
-    <a href = '/comics/{{ $comic->name }}'>{{ $comic->name }}</a>
-@endforeach
+<h1>Welcome to ComicOnline.com</h1>
+@yield('content')
 </body>
 </html>

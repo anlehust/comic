@@ -6,7 +6,7 @@
 </head>
 <body>
 @foreach ($images as $image)
- <img src='data:image/jpg;base64,{{$image->source}}' />
+ <img src='data:image/jpg;base64,{{$image->source}}' /><br>
 @endforeach
 </body>
 </html>
