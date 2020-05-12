@@ -10,6 +10,6 @@ class ComicController extends Controller
     //
     public function content(){
         $comics = DB::table('list_comic')->select('name')->get();
-        return view('show',array('comics'=>$comics));
+        return view('showcomic',array('comics'=>$comics));
     }
 }

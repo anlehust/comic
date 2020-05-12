@@ -16,14 +16,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/login', function () {
-    return view('login');
-});
+
 Route::get('database', function(){
     Schema::create('list_comic',function($table){
         $table -> string('author',100);
     });
 });
-Route::get('comics','ComicController@content');
+Route::get('comics','ComicController@content') ;
 Route::get('comics/{name}','ChapController@content');
 Route::get('comics/{name_of_comic}/chaps/{name_of_chap}','ImageController@content');
+
+Route::get('signup','SignUpController@create');
+Route::post('signup','SignUpController@store');
+
+Route::get('login','LoginController@insert');
+Route::post('login','LoginController@check');
