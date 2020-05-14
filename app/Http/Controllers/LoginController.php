@@ -5,12 +5,18 @@ use DB;
 use App\Quotation;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Http\Session;
 use Illuminate\Support\Collection;
+use Illuminate\Routing\Redirector;
 class LoginController extends Controller
 {
     //
-    public function insert(){
-        return view('login');
+    public function insert(Request $request){
+        if($request->session()->has('username')){
+            return redirect()->route('listcomics');
+        }
+        else
+            return view('login');
     }
     public function check(Request $request){
         $username = $request->input('username');
@@ -21,10 +27,14 @@ class LoginController extends Controller
         ->where('password','=',$password)
         ->get();
         if(!$id->isEmpty()){
-            return redirect('comics');
+            $request->session()->put('username', $username);
+            return redirect()->route('listcomics');
         }
         else{
-            return redirect()->back()->withInput($request->input());
+            return view('login')->with('fail', 'Đăng nhập không thành công, sai username hoặc password.');
         }
+    }
+    public function skip(){
+        return redirect()->route('listcomics');
     }
 }

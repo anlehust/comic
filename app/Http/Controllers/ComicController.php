@@ -8,8 +8,9 @@ use Illuminate\Http\Request;
 class ComicController extends Controller
 {
     //
-    public function content(){
+    public function content(Request $request){
+        $username = $request->session()->get('username');
         $comics = DB::table('list_comic')->select('name')->get();
-        return view('showcomic',array('comics'=>$comics));
+        return view('showcomic')->with(array('comics'=>$comics))->with('username',$username);
     }
 }
