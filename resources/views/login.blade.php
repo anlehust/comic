@@ -1,7 +1,7 @@
 @extends('layout')
 @section('content')
-@if(isset($fail))
-		<div>{{ $fail }}</div>
+@if(isset($message))
+		<div>{{ $message }}</div>
     @endif
 <form action="login" method="post">
     @csrf

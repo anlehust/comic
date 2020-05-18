@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Quotation;
 use App\Http\Requests;
+use App\Models\User;
 class SignUpController extends Controller
 {
     //
@@ -17,8 +18,13 @@ class SignUpController extends Controller
         $password = $request -> input('password');
         $fullname = $request -> input('fullname');
         $data=array('username'=>$username,"password"=>$password,"name"=>$fullname);
-        DB::table('users')->insert($data);
-        return redirect('comics');
+        $user = new User();
+        $check = $user->GetUser($username, $password);
+        if(!$check->isEmpty()){
+            return view('signup')->with('message','Tên đăng nhập đã được sử dụng');
+        }
+        else $user->NewUser($data);
+        return view('login')->with('message','Đăng kí thành công. Đăng nhập để tiếp tục.');
     }
     
 }
