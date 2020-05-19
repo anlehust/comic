@@ -32,7 +32,9 @@ Route::post('signup','SignUpController@store');
 Route::get('login','LoginController@insert');
 Route::post('login','LoginController@check');
 
-Route::get('viewprofile','ViewProfileController@check');
+Route::group(['middleware' => 'jwt.auth'], function () {
+    Route::get('user-info', 'ViewProfileController@getUserInfo');
+});
 
 Route::get('skip','LoginController@skip');
 
