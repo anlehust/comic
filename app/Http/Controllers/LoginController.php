@@ -8,7 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Session;
 use Illuminate\Support\Collection;
 use Illuminate\Routing\Redirector;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Hash;
+=======
+use App\Models\User;
+>>>>>>> 6a9237b3dd55765c7195875c260eab9979f4a491
 class LoginController extends Controller
 {
     //
@@ -22,17 +26,14 @@ class LoginController extends Controller
     public function check(Request $request){
         $username = $request->input('username');
         $password = $request->input('password');
-        $id = DB::table('users')
-        ->select('user_id')
-        ->where('username','=',$username)
-        ->where('password','=',$password)
-        ->get();
+        $user = new User();
+        $id = $user->GetUser($username, $password);
         if(!$id->isEmpty()){
             $request->session()->put('username', $username);
             return redirect()->route('listcomics');
         }
         else{
-            return view('login')->with('fail', 'Đăng nhập không thành công, sai username hoặc password.');
+            return view('login')->with('message', 'Đăng nhập không thành công, sai username hoặc password.');
         }
     }
     public function skip(){
