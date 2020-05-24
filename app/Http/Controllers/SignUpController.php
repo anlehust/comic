@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\Quotation;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Hash;
 class SignUpController extends Controller
 {
     //
@@ -15,8 +16,9 @@ class SignUpController extends Controller
     public function store(Request $request){
         $username = $request -> input('username');
         $password = $request -> input('password');
+        $hashedpassword = Hash::make($password);
         $fullname = $request -> input('fullname');
-        $data=array('username'=>$username,"password"=>$password,"name"=>$fullname);
+        $data=array('username'=>$username,"password"=>$hashedpassword,"name"=>$fullname);
         DB::table('users')->insert($data);
         return redirect('comics');
     }
