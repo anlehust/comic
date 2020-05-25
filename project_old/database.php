@@ -65,22 +65,56 @@
     }
     function insertElementListComic ($connection, $name, $new_chap, $date, $author)
     {
+        $name = trim($name);
         $sql = 'INSERT INTO  list_comic( name, new_chap, date, author)'
-              .'VALUES ("'.$name.'","'.$new_chap.'","'.$date.'","'.$author.'")';
-        $connection ->query($sql);
+              .'VALUES ("'.$name.'","'.$new_chap.'","'.$date.'","'.$author.'")'
+              .'ON DUPLICATE KEY UPDATE '
+              .'new_chap = VALUES("'.$new_chap.'") '
+              .'date = VALUES("'.$date.'") '
+              .'author = VALUES("'.$author.'")';
+              echo $sql;
+       // $connection ->query($sql);
     }
-
+    function updateElementListComic ($connection, $url,$name, $new_chap, $date, $author)
+    {
+        $name = trim($name);
+        $pattern = '/.{0,}?[.]{3}/';
+        if(preg_match($pattern,$name)){
+            $html = file_get_contents($url);
+            $html = str_replace("\n","\0",$html);
+            $pattern = '/<h1 itemprop="name">(.{0,}?)<\/h1>/';
+            preg_match($pattern, $html, $matches);
+            $name = $matches[1];
+        }
+        $sql = 'INSERT INTO  list_comic( name, new_chap, date, author) '
+              .'VALUES ("'.$name.'","'.$new_chap.'","'.$date.'","'.$author.'") '
+              .'ON DUPLICATE KEY UPDATE '
+              .'new_chap = "'.$new_chap.'", '
+              .'date ="'.$date.'", '
+              .'author ="'.$author.'"';
+              echo $sql;
+       $connection ->query($sql);
+    }
     function matchRegex()
     {
         $html = file_get_contents('http://truyentranhtuan.com/danh-sach-truyen');
         $html = str_replace("\n","\0",$html);
-        $pattern = '/<span class="manga"><a href="(.{0,}?)" rel="bookmark" >(.{0,}?)<\/a>.{0,}?(Chương [0-9]{1,3}).{0,}?([0-9]{2}\.[0-9]{2}.[0-9]{4})/';
+        $pattern = '/<span class="manga.{0,}?"><a href="(.{0,}?)" rel="bookmark" >(.{0,}?)<\/a>.{0,}?(Chương [0-9]{1,3}).{0,}?([0-9]{2}\.[0-9]{2}.[0-9]{4})/';
 
         preg_match_all($pattern, $html, $matches);
 
         return $matches;
     }
+    function matchRegex4NewComic()
+    {
+        $html = file_get_contents('http://truyentranhtuan.com');
+        $html = str_replace("\n","\0",$html);
+        $pattern = '/<span class="manga easy-tooltip">.{0,}?<a href="(.{0,}?)">(.{0,}?)<\/a>.{0,}?(Chương [0-9]{1,3}).{0,}?([0-9]{2}\.[0-9]{2}.[0-9]{4})/';
 
+        preg_match_all($pattern, $html, $matches);
+
+        return $matches;
+    }
     function insertTableListComic($connection)
     {
         $matches = matchRegex();
@@ -89,7 +123,14 @@
             insertElementListComic($connection, $matches[2][$i], $matches[3][$i], $matches[4][$i], NULL);
         }
     }
-
+    function updateTableListComic($connection)
+    {
+        $matches = matchRegex4NewComic();
+        $count = count($matches[0]);
+        for ($i = 0; $i < $count; $i++){
+            updateElementListComic($connection,$matches[1][$i], $matches[2][$i], $matches[3][$i], $matches[4][$i], NULL);
+        }
+    }
     function insertChap($connection)
     {
      $arr = matchRegex();
@@ -179,7 +220,7 @@
 // createTableImageSource($connection);
 // createTableUser($connection);
 // createTableHistory($connection);
-// insertTableListComic($connection);
+ updateTableListComic($connection);
 //insertChap($connection);
-insertImage($connection);
+//insertImage($connection);
 

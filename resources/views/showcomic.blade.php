@@ -5,10 +5,14 @@
 @if(!isset($username))
 <button><a href="login" style="text-decoration: none; color: black;">Log In</a></button>
 <button><a href="signup" style="text-decoration: none; color: black;">Sign Up</a></button>
+<a href = "">Most Recent Chap</a>
 @endif
+
+@if(!isset($data))
+@end
 <br>
 @foreach ($comics as $comic)
-    <a href = '/comics/{{ $comic->name }}'>{{ $comic->name }}</a>
+    <a class = "comic" href = '/comics/{{ $comic->name }}'>{{ $comic->name }}</a>
 @endforeach
 <br>
 {{$comics->onEachSide(3)->links()}}

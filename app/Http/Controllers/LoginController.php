@@ -23,8 +23,9 @@ class LoginController extends Controller
         $username = $request->input('username');
         $password = $request->input('password');
         $user = new User();
-        $id = $user->GetUser($username, $password);
-        if(!$id->isEmpty()){
+        $data = $user->GetUser($username, $password);
+        if(!$data->isEmpty()){
+            $request->session()->put('data',$data);
             $request->session()->put('username', $username);
             return redirect()->route('listcomics');
         }

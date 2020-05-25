@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Comic </title>
+<link rel="stylesheet" href="{{ asset('css/layout.css') }}">
 </head>
 <body>
 <h1>Welcome to ComicOnline.com</h1>
