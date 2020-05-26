@@ -39,3 +39,5 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 Route::get('skip','LoginController@skip');
 
 Route::get('logout','LogOutController@logout');
+
+Route::get('newchap','ChapController@newcontent');

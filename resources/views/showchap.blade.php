@@ -5,7 +5,11 @@
 <button><a href="signup" style="text-decoration: none; color: black;">Sign Up</a></button>
 @endif
 <br>
-@foreach ($chaps as $chap)
-    <a href = '{{$chap->name}}/chaps/{{$chap->name_of_chap}}'>{{ $chap->name_of_chap }}</a>
+<table>
+@foreach ($chaps as $chap)<tr>
+   <td> <a class = "chap" href = '{{$chap->name}}/chaps/{{$chap->name_of_chap}}'>{{ $chap->name_of_chap }}</a></td>
+   <td>{{$chap->date}}</td>
+</tr>
 @endforeach
+</table>
 @endsection

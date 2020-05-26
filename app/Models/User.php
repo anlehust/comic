@@ -9,12 +9,12 @@ class User extends Model
 {
     //
     public function GetUser($username, $password){
-        $id = DB::table('users')
-        ->select('user_id')
+        $data = DB::table('users')
+        ->select('user_id','recent_chap','name')
         ->where('username','=',$username)
         ->where('password','=',$password)
         ->get();
-        return $id;
+        return $data;
     }
     public function NewUser($data){
         if(DB::table('users')->insert($data)) return true;
