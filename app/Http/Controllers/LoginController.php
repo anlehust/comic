@@ -8,11 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Session;
 use Illuminate\Support\Collection;
 use Illuminate\Routing\Redirector;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Hash;
-=======
 use App\Models\User;
->>>>>>> 6a9237b3dd55765c7195875c260eab9979f4a491
 class LoginController extends Controller
 {
     //
