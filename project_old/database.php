@@ -249,7 +249,7 @@
 // createTableImageSource($connection);
 // createTableUser($connection);
 // createTableHistory($connection);
-//  updateTableListComic($connection);
+  updateTableListComic($connection);
 //insertChap($connection);
 //insertImage($connection);
 updateChap($connection);

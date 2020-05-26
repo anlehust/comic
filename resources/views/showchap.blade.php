@@ -6,10 +6,15 @@
 @endif
 <br>
 <table>
+<tr>
+<th>Chap</th>
+<th>Date</th>
+</tr>
 @foreach ($chaps as $chap)<tr>
    <td> <a class = "chap" href = '{{$chap->name}}/chaps/{{$chap->name_of_chap}}'>{{ $chap->name_of_chap }}</a></td>
    <td>{{$chap->date}}</td>
 </tr>
 @endforeach
 </table>
+{{$chaps->onEachSide(3)->links()}}
 @endsection

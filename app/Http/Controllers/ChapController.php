@@ -15,16 +15,17 @@ class ChapController extends Controller
         ->orderByRaw('CHAR_LENGTH(name_of_chap)')
         ->orderBy('name_of_chap')
         ->orderBy('date_format','desc')
-        ->get();
+        ->paginate(10);
+        //->get();
         return view('showchap',array('chaps'=>$chaps));
     }
     public function newcontent(){
         $chaps = DB::table('chap')
         ->select('name_of_chap','name','date',DB::raw("STR_TO_DATE(date, '%d.%m.%Y') as date_format"))
         ->orderBy('date_format','desc')
-        ->offset(0)
-        ->limit(5) 
-        ->get();
-        return view('showchap',array('chaps'=>$chaps));
+        ->limit(100)
+        ->paginate(10);
+        //->get();
+        return view('showchap') ->with(array('chaps'=>$chaps));
     }
 }
