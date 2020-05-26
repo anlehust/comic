@@ -8,7 +8,7 @@ class Comic extends Model
 {
     //
     public function GetAllComic(){
-       return DB::table('list_comic')->select('name')->paginate(15);
+       return DB::table('list_comic')->select('*')->paginate(15);
     }
     public function GetComicBy1stCharacter($character){
         return DB::table('list_comic')->select('name');
@@ -16,6 +16,6 @@ class Comic extends Model
     public function GetImage($id_chap){
         return DB::table('image')->select('source')
         ->where('id_chap','=',$id_chap)
-        ->paginate('1');
+        ->paginate(1);
     }
 }

@@ -105,6 +105,7 @@
 
         return $matches;
     }
+    //crawl ds truyện
     function matchRegex4NewComic()
     {
         $html = file_get_contents('http://truyentranhtuan.com');
@@ -115,6 +116,7 @@
 
         return $matches;
     }
+    //thêm mới ds truyện
     function insertTableListComic($connection)
     {
         $matches = matchRegex();
@@ -123,6 +125,7 @@
             insertElementListComic($connection, $matches[2][$i], $matches[3][$i], $matches[4][$i], NULL);
         }
     }
+    //cập nhật danh sách truyện
     function updateTableListComic($connection)
     {
         $matches = matchRegex4NewComic();
@@ -131,6 +134,7 @@
             updateElementListComic($connection,$matches[1][$i], $matches[2][$i], $matches[3][$i], $matches[4][$i], NULL);
         }
     }
+    // thêm mới chương truyện
     function insertChap($connection)
     {
      $arr = matchRegex();
@@ -164,7 +168,7 @@
             }
         }
      }
-
+//thêm ảnh truyện vào db
     function insertImage($connection)
     {
         $arr = matchRegex();
@@ -215,12 +219,37 @@
             }
         }
     }
+    function updateChap($connection){
+        $arr = matchRegex();
+     $length =count($arr[0]);
+     $sql = 'INSERT INTO chap(name, name_of_chap, date)';
+        for($k = 0; $k < $length; $k++) {
+            $name = $arr[2][$k];
+            $link = $arr[1][$k];
+            $html = file_get_contents($link);
+            $html = str_replace("\n", "\0", $html);
+            $pattern = '/<span class="chapter-name">.{0,}?".{0,}?">(.{0,}?)<\/a>.{0,}?<span class="date-name">([0-9]{1,}\.[0-9]{1,}.[0-9]{4})/';
+
+            preg_match_all($pattern, $html, $chapters);
+
+            $length_chapters = count($chapters[0]);
+            for ($i=0 ; $i < $length_chapters; $i++){
+                $connection->query($sql.' SELECT * FROM ( SELECT "'.$name.'","'.$chapters[1][$i].'","'.$chapters[2][$i].'") '
+            .'AS tmp '
+            .'WHERE NOT EXISTS( '
+            .'SELECT name_of_chap, date FROM chap '
+            .'WHERE name_of_chap = "'.$chapters[1][$i].'" AND date = "'.$chapters[2][$i].'") LIMIT 1');
+            
+            }
+        }
+    }
+    
 // createTableListComic($connection);
 // createTableChap($connection);
 // createTableImageSource($connection);
 // createTableUser($connection);
 // createTableHistory($connection);
- updateTableListComic($connection);
+//  updateTableListComic($connection);
 //insertChap($connection);
 //insertImage($connection);
-
+updateChap($connection);
