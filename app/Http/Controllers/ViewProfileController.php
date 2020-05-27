@@ -9,10 +9,9 @@ class ViewProfileController extends Controller
 {
     //
     
-    private $user;
-
-    public function __construct(User $user){
-        $this->user = $user;
+    public function view(Request $request){
+        $data = $request->session()->get('data');
+        return view('viewprofile')->with('data',$data[0]);
     }
     // public function login(Request $request){
     //     $credentials = $request->only('email', 'password');

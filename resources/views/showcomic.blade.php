@@ -1,6 +1,6 @@
 @extends('layout')
 @section('content')
-<p>{{$username ?? ''}}</p>
+ <p>Welcome {{$data->name ?? ''}}</p>
 <p>{{$messenger ?? ''}}</p>
 @if(!isset($username))
 <button><a href="login" style="text-decoration: none; color: black;">Log In</a></button>
@@ -8,8 +8,7 @@
 <a href = "">Most Recent Chap</a>
 @endif
 <button><a href="newchap" style="text-decoration: none; color: black;">New Chap</a></button>
-@if(!isset($data))
-@endif
+
 <br>
 <table>
 <tr>

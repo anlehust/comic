@@ -41,3 +41,5 @@ Route::get('skip','LoginController@skip');
 Route::get('logout','LogOutController@logout');
 
 Route::get('newchap','ChapController@newcontent');
+
+Route::get('viewprofile','ViewProfileController@view');

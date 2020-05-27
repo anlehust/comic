@@ -12,7 +12,8 @@ class ComicController extends Controller
     public function content(Request $request){
         $username = $request->session()->get('username');
         $list_comic = new Comic();
+        $data = $request->session()->get('data');
         $comics = $list_comic->GetAllComic();
-        return view('showcomic')->with(array('comics'=>$comics))->with('username',$username);
+        return view('showcomic')->with(array('comics'=>$comics))->with('username',$username)->with('data',$data[0]);
     }
 }
