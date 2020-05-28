@@ -14,6 +14,9 @@ class ComicController extends Controller
         $list_comic = new Comic();
         $data = $request->session()->get('data');
         $comics = $list_comic->GetAllComic();
+        if($data != null)
         return view('showcomic')->with(array('comics'=>$comics))->with('username',$username)->with('data',$data[0]);
+        else 
+        return view('showcomic')->with(array('comics'=>$comics))->with('username',$username);
     }
 }
